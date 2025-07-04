@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/chatbot-ia-suisse/static/css/main.e6c13ad2.css",
-    "main.js": "/chatbot-ia-suisse/static/js/main.7233811d.js",
+    "main.js": "/chatbot-ia-suisse/static/js/main.0d2560c7.js",
     "static/js/453.c2bbe873.chunk.js": "/chatbot-ia-suisse/static/js/453.c2bbe873.chunk.js",
     "index.html": "/chatbot-ia-suisse/index.html",
     "main.e6c13ad2.css.map": "/chatbot-ia-suisse/static/css/main.e6c13ad2.css.map",
-    "main.7233811d.js.map": "/chatbot-ia-suisse/static/js/main.7233811d.js.map",
+    "main.0d2560c7.js.map": "/chatbot-ia-suisse/static/js/main.0d2560c7.js.map",
     "453.c2bbe873.chunk.js.map": "/chatbot-ia-suisse/static/js/453.c2bbe873.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.7233811d.js"
+    "static/js/main.0d2560c7.js"
   ]
 }
