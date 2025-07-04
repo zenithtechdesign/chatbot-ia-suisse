@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Phone, User, Lock, BarChart2, FileText, Calendar, Settings, ArrowRight, CheckCircle, Code, Zap, Cpu, Search, MessageSquare, Users, Star, X } from 'lucide-react';
+import { Mail, Phone, ArrowRight, CheckCircle, Code, Zap, Cpu, MessageSquare, Users, Star, X } from 'lucide-react';
 
 // Helper component for Icons
 const IconWrapper = ({ children }) => <div className="bg-blue-500/10 text-blue-400 p-3 rounded-lg">{children}</div>;
@@ -144,21 +144,19 @@ const ShaderBackground = ({ type }) => {
 
                     float d = 0.0;
                     
-                    // Mouse-controlled blob
                     vec2 mouse_pos = u_mouse;
                     mouse_pos.x *= (16.0/9.0);
-                    d += 0.12 / distance(st, mouse_pos); // Reduced intensity
+                    d += 0.12 / distance(st, mouse_pos);
 
-                    // Animated blobs
                     d += 0.12 / distance(st, vec2(0.5 + sin(u_time * 0.5) * 0.3, 0.5 + cos(u_time * 0.3) * 0.3));
                     d += 0.12 / distance(st, vec2(1.5 + sin(u_time * 0.3) * 0.5, 0.5 + cos(u_time * 0.5) * 0.5));
                     d += 0.12 / distance(st, vec2(1.0 + sin(u_time * 0.2) * 0.7, 1.0 + cos(u_time * 0.7) * 0.2));
 
                     d = smoothstep(0.8, 1.0, d);
                     
-                    vec3 color1 = vec3(0.02, 0.03, 0.07); // Darker base
-                    vec3 color2 = vec3(0.05, 0.2, 0.5); // Darker Blue
-                    vec3 color3 = vec3(0.2, 0.5, 0.7); // Darker Cyan
+                    vec3 color1 = vec3(0.02, 0.03, 0.07);
+                    vec3 color2 = vec3(0.05, 0.2, 0.5);
+                    vec3 color3 = vec3(0.2, 0.5, 0.7);
                     
                     vec3 color = mix(color1, color2, d);
                     color = mix(color, color3, smoothstep(0.9, 1.0, d));
@@ -173,27 +171,25 @@ const ShaderBackground = ({ type }) => {
 
                 void main() {
                     vec2 st = vUv;
-                    st *= 30.0; // Grid density
+                    st *= 30.0;
                     
                     vec2 ipos = floor(st);
                     vec2 fpos = fract(st);
 
-                    vec3 color = vec3(0.03, 0.0, 0.06); // Darker purple background
+                    vec3 color = vec3(0.03, 0.0, 0.06);
 
                     float mouse_dist = distance(st, u_mouse * 30.0);
-                    float glow = 1.5 / (mouse_dist * mouse_dist + 1.0); // Reduced glow
+                    float glow = 1.5 / (mouse_dist * mouse_dist + 1.0);
                     
-                    // Add glowing points
-                    float point_size = 0.08 + glow * 0.2; // Smaller points
+                    float point_size = 0.08 + glow * 0.2;
                     if (length(fpos - 0.5) < point_size) {
-                        vec3 point_color = vec3(0.6, 0.3, 0.8); // Darker Light purple
+                        vec3 point_color = vec3(0.6, 0.3, 0.8);
                         color = mix(color, point_color, 1.0 - smoothstep(0.0, point_size, length(fpos - 0.5)));
                     }
                     
-                    // Add pulsing grid lines
                     float pulse = sin(ipos.x * 0.5 + u_time) + cos(ipos.y * 0.5 + u_time);
                     if (abs(fpos.x - 0.5) < 0.01 || abs(fpos.y - 0.5) < 0.01) {
-                        color += vec3(0.4, 0.15, 0.6) * (0.05 + glow * 0.2) * (0.5 + sin(pulse) * 0.5); // Darker lines, less glow
+                        color += vec3(0.4, 0.15, 0.6) * (0.05 + glow * 0.2) * (0.5 + sin(pulse) * 0.5);
                     }
 
                     gl_FragColor = vec4(color, 1.0);
@@ -235,9 +231,9 @@ const ShaderBackground = ({ type }) => {
 
                     float n = fbm(st + r);
 
-                    vec3 color1 = vec3(0.05, 0.0, 0.1); // Darker Purple
-                    vec3 color2 = vec3(0.3, 0.05, 0.4); // Darker Violet
-                    vec3 color3 = vec3(0.6, 0.3, 0.5); // Darker Pinkish
+                    vec3 color1 = vec3(0.05, 0.0, 0.1);
+                    vec3 color2 = vec3(0.3, 0.05, 0.4);
+                    vec3 color3 = vec3(0.6, 0.3, 0.5);
                     
                     vec3 color = mix(color1, color2, smoothstep(0.2, 0.5, n));
                     color = mix(color, color3, smoothstep(0.5, 0.7, n));
@@ -301,16 +297,36 @@ const ShaderBackground = ({ type }) => {
 // --- Main App Component ---
 const App = () => {
     const [currentPage, setCurrentPage] = useState('home');
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     useEffect(() => {
+        const tailwindScript = document.createElement('script');
+        tailwindScript.src = "https://cdn.tailwindcss.com";
+        document.head.appendChild(tailwindScript);
+
         const gtmScript = document.createElement("script");
         gtmScript.innerHTML = `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-TL3NZSML');`;
         document.head.appendChild(gtmScript);
-        return () => { if (gtmScript.parentNode) document.head.removeChild(gtmScript); }
+
+        const fontLink1 = document.createElement('link');
+        fontLink1.href = "https://fonts.googleapis.com";
+        fontLink1.rel = "preconnect";
+        document.head.appendChild(fontLink1);
+
+        const fontLink2 = document.createElement('link');
+        fontLink2.href = "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap";
+        fontLink2.rel = "stylesheet";
+        document.head.appendChild(fontLink2);
+
+
+        return () => { 
+            if (gtmScript.parentNode) document.head.removeChild(gtmScript);
+            if (tailwindScript.parentNode) document.head.removeChild(tailwindScript);
+            if (fontLink1.parentNode) document.head.removeChild(fontLink1);
+            if (fontLink2.parentNode) document.head.removeChild(fontLink2);
+        }
     }, []);
 
     const navigateTo = (page) => {
@@ -319,16 +335,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://ww
         window.scrollTo(0, 0);
     };
 
-    const handleLogin = () => { setIsLoggedIn(true); navigateTo('dashboard'); };
-    const handleLogout = () => { setIsLoggedIn(false); navigateTo('home'); };
-
     const PageContent = () => {
         switch (currentPage) {
             case 'services': return <ServicesPage navigateTo={navigateTo} />;
             case 'tarifs': return <TarifsPage navigateTo={navigateTo} />;
             case 'contact': return <ContactPage navigateTo={navigateTo} />;
-            case 'login': return <LoginPage navigateTo={navigateTo} handleLogin={handleLogin} />;
-            case 'dashboard': return <DashboardPage handleLogout={handleLogout} />;
             default: return <HomePage navigateTo={navigateTo} />;
         }
     };
@@ -340,9 +351,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://ww
                     <ParticleBackground />
                 </motion.div>
             )}
-            {['services', 'tarifs', 'contact', 'login', 'dashboard'].includes(currentPage) && (
+            {['services', 'tarifs', 'contact'].includes(currentPage) && (
                  <motion.div key={`${currentPage}-bg`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1 }}>
-                    <ShaderBackground type={['login', 'dashboard'].includes(currentPage) ? 'contact' : currentPage} />
+                    <ShaderBackground type={currentPage} />
                 </motion.div>
             )}
         </AnimatePresence>
@@ -353,10 +364,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://ww
             <noscript>
                 <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TL3NZSML" height="0" width="0" style={{ display: 'none', visibility: 'hidden' }}></iframe>
             </noscript>
-            <div className="text-gray-200 font-sans antialiased">
+            <div className="text-gray-200 font-['Inter',_sans-serif] antialiased">
                 <BackgroundSelector />
                 <div className="relative z-10">
-                    <Header navigateTo={navigateTo} isLoggedIn={isLoggedIn} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+                    <Header navigateTo={navigateTo} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
                     <main className="px-4 sm:px-6 lg:px-8">
                         <AnimatePresence mode="wait">
                             <motion.div key={currentPage} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.5 }}>
@@ -369,7 +380,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://ww
                 <style>{`
                     body { 
                         background-color: #0A0A0A; 
-                        font-family: 'Inter', sans-serif; 
                     }
                     /* Add a safe area at the bottom on mobile to prevent the browser UI from hiding fixed elements */
                     @media (max-width: 768px) {
@@ -384,7 +394,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://ww
 };
 
 // --- Header Component ---
-const Header = ({ navigateTo, isLoggedIn, isMenuOpen, setIsMenuOpen }) => {
+const Header = ({ navigateTo, isMenuOpen, setIsMenuOpen }) => {
     const navLinks = [
         { name: 'Accueil', page: 'home' },
         { name: 'Nos Services', page: 'services' },
@@ -406,11 +416,6 @@ const Header = ({ navigateTo, isLoggedIn, isMenuOpen, setIsMenuOpen }) => {
                             </button>
                         ))}
                     </div>
-                    <div className="hidden lg:flex">
-                         <button onClick={() => navigateTo(isLoggedIn ? 'dashboard' : 'login')} className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-5 py-2 rounded-lg transition-all duration-300 transform hover:scale-105">
-                            Espace Client
-                        </button>
-                    </div>
                     <div className="lg:hidden">
                         <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-white">
                             {isMenuOpen ? <X size={28} /> : <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>}
@@ -425,9 +430,6 @@ const Header = ({ navigateTo, isLoggedIn, isMenuOpen, setIsMenuOpen }) => {
                                     {link.name}
                                 </button>
                             ))}
-                            <button onClick={() => navigateTo(isLoggedIn ? 'dashboard' : 'login')} className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-5 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 text-center">
-                                Espace Client
-                            </button>
                         </div>
                     </div>
                 )}
@@ -621,9 +623,9 @@ const TarifsPage = ({ navigateTo }) => {
                         <li className="flex items-center gap-3"><CheckCircle className="text-green-400" size={20} /> Formation sur vos données</li>
                         <li className="flex items-center gap-3"><CheckCircle className="text-green-400" size={20} /> Installation sur votre site</li>
                     </ul>
-                    <button onClick={() => navigateTo('login')} className="mt-10 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 rounded-lg transition-all duration-300">
+                    <a href="https://zenithtechdesign.github.io/chatbot-ia-commande" className="block text-center mt-10 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 rounded-lg transition-all duration-300">
                         Commander
-                    </button>
+                    </a>
                 </div>
                 {/* Plan 2 */}
                 <div className="bg-white/5 border border-white/10 rounded-2xl p-8 flex flex-col">
@@ -664,268 +666,151 @@ const TarifsPage = ({ navigateTo }) => {
     );
 };
 
-const ContactPage = ({ navigateTo }) => (
-    <div className="py-24">
-        <div className="text-center max-w-3xl mx-auto">
-            <h1 className="text-4xl sm:text-5xl font-extrabold text-white">Contact</h1>
-            <p className="mt-4 text-lg text-gray-400">Une question ? Un projet ? N'hésitez pas à nous contacter.</p>
-        </div>
+const ContactPage = ({ navigateTo }) => {
+    // State for form fields
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [message, setMessage] = useState('');
+    // State for submission status: 'idle', 'sending', 'success', 'error'
+    const [status, setStatus] = useState('idle');
 
-        <div className="mt-20 max-w-4xl mx-auto grid lg:grid-cols-2 gap-12">
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
-                <h2 className="text-2xl font-bold text-white">Envoyer un message</h2>
-                <form className="mt-6 space-y-6">
-                    <div>
-                        <label htmlFor="name" className="block text-sm font-medium text-gray-300">Nom</label>
-                        <input type="text" id="name" className="mt-2 w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                    </div>
-                    <div>
-                        <label htmlFor="email" className="block text-sm font-medium text-gray-300">Email</label>
-                        <input type="email" id="email" className="mt-2 w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                    </div>
-                    <div>
-                        <label htmlFor="message" className="block text-sm font-medium text-gray-300">Message</label>
-                        <textarea id="message" rows="4" className="mt-2 w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
-                    </div>
-                    <button type="submit" className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 rounded-lg transition-all duration-300">
-                        Envoyer
-                    </button>
-                </form>
-            </div>
-            <div className="space-y-8">
-                <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
-                     <h3 className="text-xl font-semibold text-white">Informations de contact</h3>
-                     <div className="mt-4 space-y-4">
-                        <div className="flex items-center gap-4">
-                            <Mail className="text-blue-400" size={24} />
-                            <a href="mailto:contact@chatbot-ia.ch" className="text-gray-300 hover:text-white">contact@chatbot-ia.ch</a>
-                        </div>
-                        <div className="flex items-center gap-4">
-                            <Phone className="text-blue-400" size={24} />
-                            <a href="tel:+41791278371" className="text-gray-300 hover:text-white">+41 79 127 83 71</a>
-                        </div>
-                     </div>
-                </div>
-                 <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
-                     <h3 className="text-xl font-semibold text-white">Projet d'automatisation ?</h3>
-                     <p className="mt-2 text-gray-400">Pour les projets sur-mesure, utilisez notre formulaire de qualification pour un rendez-vous productif.</p>
-                     <button onClick={() => navigateTo('dashboard')} className="mt-4 w-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold py-3 rounded-lg transition-all duration-300">
-                        Qualifier mon projet
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setStatus('sending');
 
-const LoginPage = ({ navigateTo, handleLogin }) => (
-    <div className="py-24 flex items-center justify-center">
-        <div className="max-w-md w-full bg-white/5 border border-white/10 rounded-2xl p-8">
-            <h1 className="text-3xl font-bold text-white text-center">Espace Client</h1>
-            <p className="text-gray-400 text-center mt-2">Connectez-vous pour gérer vos services.</p>
-            
-            <div className="mt-8 space-y-4">
-                <button className="w-full bg-white text-black font-semibold py-3 rounded-lg flex items-center justify-center gap-3 hover:bg-gray-200 transition-colors">
-                    <svg className="w-6 h-6" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path><path fill="none" d="M0 0h48v48H0z"></path></svg>
-                    Continuer avec Google
-                </button>
-                <div className="flex items-center">
-                    <hr className="w-full border-white/20" />
-                    <span className="px-2 text-gray-400">OU</span>
-                    <hr className="w-full border-white/20" />
-                </div>
-                <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); handleLogin(); }}>
-                    <div>
-                        <label htmlFor="login-email" className="sr-only">Email</label>
-                        <div className="relative">
-                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20}/>
-                            <input type="email" id="login-email" placeholder="Email" required className="w-full bg-white/10 border border-white/20 rounded-lg pl-10 pr-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                        </div>
-                    </div>
-                    <div>
-                        <label htmlFor="login-password" className="sr-only">Mot de passe</label>
-                        <div className="relative">
-                            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20}/>
-                            <input type="password" id="login-password" placeholder="Mot de passe" required className="w-full bg-white/10 border border-white/20 rounded-lg pl-10 pr-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                        </div>
-                    </div>
-                    <button type="submit" className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 rounded-lg transition-all duration-300">
-                        Connexion
-                    </button>
-                </form>
-                <p className="text-center text-sm text-gray-400">
-                    Pas encore de compte ? <button onClick={() => {}} className="font-semibold text-blue-400 hover:underline">Inscrivez-vous</button>
-                </p>
-            </div>
-        </div>
-    </div>
-);
+        try {
+            const response = await fetch('https://doc2ai.ch/webhook-test/53394872-b923-41a0-a7ac-6ba7d1e385a7', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name, email, message }),
+            });
 
-const DashboardPage = ({ handleLogout }) => {
-    const [activeTab, setActiveTab] = useState('services');
-    
-    const tabs = [
-        { id: 'services', name: 'Mes Services', icon: <BarChart2 size={20} /> },
-        { id: 'invoices', name: 'Mes Factures', icon: <FileText size={20} /> },
-        { id: 'appointment', name: 'Prendre RDV', icon: <Calendar size={20} /> },
-        { id: 'profile', name: 'Mon Profil', icon: <Settings size={20} /> },
-    ];
-
-    const TabContent = () => {
-        switch(activeTab) {
-            case 'invoices': return <InvoicesTab />;
-            case 'appointment': return <AppointmentTab />;
-            case 'profile': return <ProfileTab />;
-            default: return <ServicesTab />;
+            if (response.ok) {
+                setStatus('success');
+                // Reset form fields after successful submission
+                setName('');
+                setEmail('');
+                setMessage('');
+            } else {
+                // Handle non-ok responses (e.g., 4xx, 5xx)
+                console.error('Webhook response not OK:', response);
+                setStatus('error');
+            }
+        } catch (error) {
+            console.error('Error sending message:', error);
+            setStatus('error');
         }
     };
 
     return (
-        <div className="py-24 max-w-6xl mx-auto">
-            <div className="flex justify-between items-center mb-8">
-                <h1 className="text-4xl font-bold text-white">Tableau de Bord</h1>
-                <button onClick={handleLogout} className="bg-red-500/20 hover:bg-red-500/40 text-red-400 font-semibold px-4 py-2 rounded-lg transition-colors">Déconnexion</button>
+        <div className="py-24">
+            <div className="text-center max-w-3xl mx-auto">
+                <h1 className="text-4xl sm:text-5xl font-extrabold text-white">Contact</h1>
+                <p className="mt-4 text-lg text-gray-400">Une question ? Un projet ? N'hésitez pas à nous contacter.</p>
             </div>
-            <div className="flex flex-col lg:flex-row gap-8">
-                <aside className="lg:w-1/4">
-                    <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-                        {tabs.map(tab => (
-                            <button 
-                                key={tab.id}
-                                onClick={() => setActiveTab(tab.id)}
-                                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors ${activeTab === tab.id ? 'bg-blue-500/20 text-white' : 'text-gray-300 hover:bg-white/10'}`}
-                            >
-                                {tab.icon}
-                                <span className="font-semibold">{tab.name}</span>
+
+            <div className="mt-20 max-w-4xl mx-auto grid lg:grid-cols-2 gap-12">
+                <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
+                    {status === 'success' ? (
+                        <div className="text-center flex flex-col items-center justify-center h-full">
+                            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 260, damping: 20 }}>
+                                <CheckCircle className="text-green-400 w-16 h-16 mb-4" />
+                            </motion.div>
+                            <h2 className="text-2xl font-bold text-white">Message envoyé !</h2>
+                            <p className="text-gray-400 mt-2">Nous avons bien reçu votre message et nous vous répondrons dans les plus brefs délais.</p>
+                             <button onClick={() => setStatus('idle')} className="mt-6 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 rounded-lg transition-all duration-300">
+                                Envoyer un autre message
                             </button>
-                        ))}
-                    </div>
-                </aside>
-                <main className="lg:w-3/4">
-                    <div className="bg-white/5 border border-white/10 rounded-xl p-8 min-h-[400px]">
-                        <AnimatePresence mode="wait">
-                            <motion.div
-                                key={activeTab}
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -10 }}
-                                transition={{ duration: 0.3 }}
-                            >
-                                <TabContent />
+                        </div>
+                    ) : (
+                        <AnimatePresence>
+                            <motion.div initial={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                                <h2 className="text-2xl font-bold text-white">Envoyer un message</h2>
+                                <form onSubmit={handleSubmit} className="mt-6 space-y-6">
+                                    <div>
+                                        <label htmlFor="name" className="block text-sm font-medium text-gray-300">Nom</label>
+                                        <input 
+                                            type="text" 
+                                            id="name" 
+                                            value={name}
+                                            onChange={(e) => setName(e.target.value)}
+                                            required
+                                            className="mt-2 w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                    </div>
+                                    <div>
+                                        <label htmlFor="email" className="block text-sm font-medium text-gray-300">Email</label>
+                                        <input 
+                                            type="email" 
+                                            id="email" 
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            required
+                                            className="mt-2 w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                    </div>
+                                    <div>
+                                        <label htmlFor="message" className="block text-sm font-medium text-gray-300">Message</label>
+                                        <textarea 
+                                            id="message" 
+                                            rows="4" 
+                                            value={message}
+                                            onChange={(e) => setMessage(e.target.value)}
+                                            required
+                                            className="mt-2 w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                                    </div>
+                                    <button 
+                                        type="submit" 
+                                        disabled={status === 'sending'}
+                                        className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 rounded-lg transition-all duration-300 disabled:bg-blue-800 disabled:cursor-not-allowed flex items-center justify-center"
+                                    >
+                                        {status === 'sending' ? (
+                                            <>
+                                                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                </svg>
+                                                Envoi en cours...
+                                            </>
+                                        ) : 'Envoyer'}
+                                    </button>
+                                    {status === 'error' && (
+                                        <p className="text-red-400 text-center">Une erreur s'est produite. Veuillez réessayer.</p>
+                                    )}
+                                </form>
                             </motion.div>
                         </AnimatePresence>
+                    )}
+                </div>
+                <div className="space-y-8">
+                    <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
+                         <h3 className="text-xl font-semibold text-white">Informations de contact</h3>
+                         <div className="mt-4 space-y-4">
+                            <div className="flex items-center gap-4">
+                                <Mail className="text-blue-400" size={24} />
+                                <a href="mailto:contact@chatbot-ia.ch" className="text-gray-300 hover:text-white">contact@chatbot-ia.ch</a>
+                            </div>
+                            <div className="flex items-center gap-4">
+                                <Phone className="text-blue-400" size={24} />
+                                <a href="tel:+41791278371" className="text-gray-300 hover:text-white">+41 79 127 83 71</a>
+                            </div>
+                         </div>
                     </div>
-                </main>
+                     <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
+                         <h3 className="text-xl font-semibold text-white">Projet d'automatisation ?</h3>
+                         <p className="mt-2 text-gray-400">Pour les projets sur-mesure, utilisez notre formulaire de qualification pour un rendez-vous productif.</p>
+                         <button onClick={() => navigateTo('contact')} className="mt-4 w-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold py-3 rounded-lg transition-all duration-300">
+                            Qualifier mon projet
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     );
 };
 
-// --- Dashboard Tab Components ---
-const ServicesTab = () => (
-    <div>
-        <h2 className="text-2xl font-bold text-white mb-6">Mes Services</h2>
-        <div className="bg-white/10 border border-white/20 rounded-lg p-6">
-            <div className="flex justify-between items-start">
-                <div>
-                    <h3 className="text-xl font-semibold text-blue-400">Assistant Informatif</h3>
-                    <p className="text-gray-400">Abonnement mensuel</p>
-                </div>
-                <div className="text-right">
-                    <span className="px-3 py-1 bg-green-500/20 text-green-300 text-sm font-semibold rounded-full">Actif</span>
-                    <p className="text-2xl font-bold text-white mt-2">49 CHF/mois</p>
-                </div>
-            </div>
-            <div className="mt-6 pt-4 border-t border-white/10">
-                <p className="text-gray-300">Prochaine facturation le 1er août 2025.</p>
-            </div>
-        </div>
-    </div>
-);
 
-const InvoicesTab = () => {
-    const invoices = [
-        { id: 'INV-2025-002', date: '01/07/2025', amount: '49.00 CHF', status: 'Payée' },
-        { id: 'INV-2025-001', date: '01/06/2025', amount: '250.00 CHF', status: 'Payée' },
-    ];
-    return (
-        <div>
-            <h2 className="text-2xl font-bold text-white mb-6">Mes Factures</h2>
-            <div className="overflow-x-auto">
-                <table className="w-full text-left">
-                    <thead>
-                        <tr className="border-b border-white/10">
-                            <th className="p-3">Facture N°</th>
-                            <th className="p-3">Date</th>
-                            <th className="p-3">Montant</th>
-                            <th className="p-3">Statut</th>
-                            <th className="p-3"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {invoices.map(invoice => (
-                            <tr key={invoice.id} className="border-b border-white/10 hover:bg-white/5">
-                                <td className="p-3 font-semibold">{invoice.id}</td>
-                                <td className="p-3 text-gray-400">{invoice.date}</td>
-                                <td className="p-3 text-gray-300">{invoice.amount}</td>
-                                <td className="p-3"><span className="px-2 py-1 bg-green-500/20 text-green-300 text-xs font-semibold rounded-full">{invoice.status}</span></td>
-                                <td className="p-3 text-right">
-                                    <button className="text-blue-400 hover:underline">Télécharger</button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    );
-};
 
-const AppointmentTab = () => (
-    <div>
-        <h2 className="text-2xl font-bold text-white mb-2">Prendre un rendez-vous</h2>
-        <p className="text-gray-400 mb-6">Remplissez ce formulaire pour qualifier votre projet d'automatisation.</p>
-        <form className="space-y-6">
-            <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Quel est l'objectif principal de votre projet ?</label>
-                <textarea rows="3" className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
-            </div>
-            <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Avez-vous déjà un système de réservation en ligne ?</label>
-                <select className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option>Oui</option>
-                    <option>Non</option>
-                </select>
-            </div>
-             <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Quel est votre budget approximatif pour cette automatisation ?</label>
-                <input type="text" placeholder="ex: 1000 - 2000 CHF" className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            </div>
-            <button type="submit" className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 rounded-lg transition-all duration-300">
-                Soumettre et choisir un créneau
-            </button>
-        </form>
-    </div>
-);
-
-const ProfileTab = () => (
-    <div>
-        <h2 className="text-2xl font-bold text-white mb-6">Mon Profil</h2>
-        <form className="space-y-6 max-w-lg">
-            <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Nom complet</label>
-                <input type="text" defaultValue="Client Test" className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            </div>
-            <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Adresse Email</label>
-                <input type="email" defaultValue="client@test.com" className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            </div>
-             <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300">
-                Mettre à jour
-            </button>
-        </form>
-    </div>
-);
 
 // --- Footer Component ---
 const Footer = () => (
