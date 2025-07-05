@@ -1,3 +1,11 @@
-# https://www.robotstxt.org/robotstxt.html
+# Allow Googlebot
+User-agent: Googlebot
+Disallow:
+
+# Allow Googlebot-Image
+User-agent: Googlebot-Image
+Disallow:
+
+# General rule for all other bots
 User-agent: *
 Disallow:
