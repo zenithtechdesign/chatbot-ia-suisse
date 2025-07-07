@@ -30,4 +30,46 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <url>
+    <loc>https://zenithtechdesign.github.io/chatbot-ia-suisse/blog</loc>
+    <lastmod>2025-01-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://zenithtechdesign.github.io/chatbot-ia-suisse/blog/nlpd-chatbot-suisse</loc>
+    <lastmod>2025-01-07</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://zenithtechdesign.github.io/chatbot-ia-suisse/blog/ecommerce-ventes-chatbot-suisse</loc>
+    <lastmod>2025-01-07</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://zenithtechdesign.github.io/chatbot-ia-suisse/blog/cout-chatbot-suisse</loc>
+    <lastmod>2025-01-07</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://zenithtechdesign.github.io/chatbot-ia-suisse/blog/chatbot-suisse-allemand</loc>
+    <lastmod>2025-01-07</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://zenithtechdesign.github.io/chatbot-ia-suisse/blog/plateformes-chatbot-pme</loc>
+    <lastmod>2025-01-07</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://zenithtechdesign.github.io/chatbot-ia-suisse/blog/integrer-chatbot-wordpress</loc>
+    <lastmod>2025-01-07</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
 </urlset>
