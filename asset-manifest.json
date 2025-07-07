@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/chatbot-ia-suisse/static/css/main.df9b265f.css",
-    "main.js": "/chatbot-ia-suisse/static/js/main.7afaf765.js",
-    "static/js/453.c2bbe873.chunk.js": "/chatbot-ia-suisse/static/js/453.c2bbe873.chunk.js",
-    "index.html": "/chatbot-ia-suisse/index.html",
-    "main.df9b265f.css.map": "/chatbot-ia-suisse/static/css/main.df9b265f.css.map",
-    "main.7afaf765.js.map": "/chatbot-ia-suisse/static/js/main.7afaf765.js.map",
-    "453.c2bbe873.chunk.js.map": "/chatbot-ia-suisse/static/js/453.c2bbe873.chunk.js.map"
+    "main.css": "/static/css/main.df9b265f.css",
+    "main.js": "/static/js/main.f78ed127.js",
+    "static/js/453.c2bbe873.chunk.js": "/static/js/453.c2bbe873.chunk.js",
+    "index.html": "/index.html",
+    "main.df9b265f.css.map": "/static/css/main.df9b265f.css.map",
+    "main.f78ed127.js.map": "/static/js/main.f78ed127.js.map",
+    "453.c2bbe873.chunk.js.map": "/static/js/453.c2bbe873.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.df9b265f.css",
-    "static/js/main.7afaf765.js"
+    "static/js/main.f78ed127.js"
   ]
 }
